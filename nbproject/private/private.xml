@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/ListCidades.java</file>
-            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/dao/Conexao.java</file>
+            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/model/Cidade.java</file>
+            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/telaPricipal.java</file>
+            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/ListClientes.java</file>
+            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/dao/ClienteDAO.java</file>
+            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/model/Cliente.java</file>
         </group>
     </open-files>
 </project-private>

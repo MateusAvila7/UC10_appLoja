@@ -5,6 +5,13 @@
  */
 package view;
 
+import dao.CidadeDao;
+import dao.EstadoDAO;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import model.Cidade;
+import model.Estado;
+
 /**
  *
  * @author 181720083
@@ -16,7 +23,45 @@ public class FrmCliente extends javax.swing.JInternalFrame {
      */
     public FrmCliente() {
         initComponents();
+        carregarEstados();
+        carregarCidade(0);
+        
     }
+    private void carregarEstados(){
+        List<Estado> lista = EstadoDAO.getEstados();
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        Estado fake =new Estado("Selecione....");
+        fake.setCodigo(0);
+        model.addElement(fake);
+        
+        for(Estado estado : lista){
+            model.addElement(estado);
+        }
+        cmbEstado.setModel(model);
+    }
+    
+    private void carregarCidade(int codEstado){
+        
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        Cidade fake = new Cidade();
+        fake.setCodigo( 0 );
+         if( codEstado == 0){
+            fake.setNome("Selecione um estado.....");
+            model.addElement(fake);
+            cmbCidade.setEnabled(false);
+        }else{
+        List<Cidade> lista = CidadeDao.getCidades(codEstado);
+        fake.setNome("Selecione....");
+        model.addElement(fake);
+         for(Cidade cidade  : lista){
+            model.addElement(cidade);
+        }
+        cmbCidade.setEnabled(true);
+         }
+          cmbCidade.setModel(model);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,19 +88,23 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         txtNscimento = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
-        cmEstado = new javax.swing.JComboBox<>();
+        cmbEstado = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         lblCidade = new javax.swing.JLabel();
-        cmCidade = new javax.swing.JComboBox<>();
+        cmbCidade = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         txtTelefone = new javax.swing.JFormattedTextField();
         btnLimpar = new javax.swing.JToggleButton();
         btnSalvar = new javax.swing.JToggleButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtSalario = new javax.swing.JFormattedTextField();
+        cbCasado = new javax.swing.JCheckBox();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Formulario do Cliente ");
+        setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 255));
         jPanel1.setFocusCycleRoot(true);
@@ -111,16 +160,21 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("Data de Nascimento:");
 
-        cmEstado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        cmEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEstado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEstado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbEstadoItemStateChanged(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         lblCidade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblCidade.setText("Cidade:");
 
-        cmCidade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        cmCidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCidade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        cmbCidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel11.setText("Telefone:");
@@ -137,6 +191,19 @@ public class FrmCliente extends javax.swing.JInternalFrame {
 
         btnSalvar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnSalvar.setText("Salvar");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Salário:");
+
+        txtSalario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtSalario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSalarioActionPerformed(evt);
+            }
+        });
+
+        cbCasado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        cbCasado.setText("Casado");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,21 +223,29 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                                         .addComponent(rbFeminino))
                                     .addComponent(jLabel8))
                                 .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(rbMasculino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNscimento))
+                                .addGap(28, 28, 28)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtNscimento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(rbMasculino)
-                                        .addGap(42, 42, 42)
-                                        .addComponent(cbTemFilhos))))
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(cbTemFilhos)))
+                                .addGap(18, 18, 18)
+                                .addComponent(cbCasado))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(lblCidade)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cmCidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(cmbCidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel7)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cmEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(115, 115, 115)
                                 .addComponent(jLabel1))
@@ -194,7 +269,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(243, 243, 243)
                         .addComponent(btnLimpar)))
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(98, 98, 98)
@@ -227,22 +302,25 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                     .addComponent(rbFeminino)
                     .addComponent(jLabel6)
                     .addComponent(rbMasculino)
-                    .addComponent(cbTemFilhos))
+                    .addComponent(cbTemFilhos)
+                    .addComponent(cbCasado))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNscimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel2)
+                    .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(cmEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCidade)
-                    .addComponent(cmCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(btnLimpar)
                 .addGap(47, 47, 47))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,16 +344,27 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSalarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSalarioActionPerformed
+
+    private void cmbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEstadoItemStateChanged
+        Estado estado = (Estado) cmbEstado.getSelectedItem();
+        carregarCidade(estado.getCodigo());
+    }//GEN-LAST:event_cmbEstadoItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnLimpar;
     private javax.swing.JToggleButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroupSexo;
+    private javax.swing.JCheckBox cbCasado;
     private javax.swing.JCheckBox cbTemFilhos;
-    private javax.swing.JComboBox<String> cmCidade;
-    private javax.swing.JComboBox<String> cmEstado;
+    private javax.swing.JComboBox<String> cmbCidade;
+    private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -291,6 +380,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField txtCPF;
     private javax.swing.JTextField txtNome;
     private javax.swing.JFormattedTextField txtNscimento;
+    private javax.swing.JFormattedTextField txtSalario;
     private javax.swing.JFormattedTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 }

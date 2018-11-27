@@ -9,10 +9,26 @@ public class Cliente {
     private int codigo;
     private String nome, cpf, sexo, telefone;
     private Calendar nasimento;
-    private boolean temFilhos;
+    private boolean temFilhos, casado;
     private Cidade cidade;
     private Estado estado;
+    private double salario;
 
+    public boolean isCasado() {
+        return casado;
+    }
+
+    public void setCasado(boolean casado) {
+        this.casado = casado;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
     public Cliente(int codigo) {
         this.codigo = codigo;
     }

@@ -37,7 +37,6 @@ public class ListCidades extends javax.swing.JInternalFrame {
     private void carregarEstados(){
         List<Estado> lista = EstadoDAO.getEstados();
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        
         Estado fake =new Estado("Todaa as cidades....");
         fake.setCodigo(0);
         model.addElement(fake);
