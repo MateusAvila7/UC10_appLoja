@@ -68,12 +68,12 @@ public class ClienteDAO {
          String sql = "SELECT c.codigo, c.nome, c.telefone, c.cpf ,"
                  + "c.salario, c.filhos, c.casado, c.sexo, m.codigo,"
                  + " m.nome, e.codigo, e.nome,"
-                 + " DATE_FORMAT( c.dataNasimento , '%d') , "
-                 + " DATE_FORMAT( c.dataNasimento , '%m') , "
-                 + " DATE_FORMAT( c.dataNasimento , '%Y')  "
+                 + " DATE_FORMAT( c.dataNascimento , '%d') , "
+                 + " DATE_FORMAT( c.dataNascimento , '%m') , "
+                 + " DATE_FORMAT( c.dataNascimento , '%Y')  "
                  + " FROM clientes c "
                  + " INNER JOIN cidades m ON m.codigo = c.codCidade "
-                 + " INNER JOIN estados m ON e.codigo = m.codEstado "
+                 + " INNER JOIN estados e ON e.codigo = m.codEstado "
                  + " ORDER BY c.nome ";
          ResultSet rs = Conexao.consultar(sql);
          if ( rs != null){

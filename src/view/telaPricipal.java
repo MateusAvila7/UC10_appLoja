@@ -105,7 +105,7 @@ public class telaPricipal extends javax.swing.JFrame {
         menuCliente.add(menuClienteCadastrar);
 
         menuClienteListar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
-        menuClienteListar.setText("listar");
+        menuClienteListar.setText("Listar");
         menuClienteListar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuClienteListarActionPerformed(evt);
@@ -138,7 +138,9 @@ public class telaPricipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuClienteListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteListarActionPerformed
-        // TODO add your handling code here:
+        ListClientes tela = new ListClientes();
+        jdpPainel.add(tela);
+        tela.setVisible(true);
     }//GEN-LAST:event_menuClienteListarActionPerformed
 
     private void menuClienteCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClienteCadastrarActionPerformed

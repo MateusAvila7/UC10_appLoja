@@ -90,7 +90,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         rbMasculino = new javax.swing.JRadioButton();
         cbTemFilhos = new javax.swing.JCheckBox();
         jLabel7 = new javax.swing.JLabel();
-        txtNscimento = new javax.swing.JFormattedTextField();
+        txtNascimento = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
         cmbEstado = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
@@ -140,6 +140,11 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         buttonGroupSexo.add(rbFeminino);
         rbFeminino.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         rbFeminino.setText("Feminino");
+        rbFeminino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbFemininoActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("sexo:");
@@ -147,6 +152,11 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         buttonGroupSexo.add(rbMasculino);
         rbMasculino.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         rbMasculino.setText("Masculino");
+        rbMasculino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbMasculinoActionPerformed(evt);
+            }
+        });
 
         cbTemFilhos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         cbTemFilhos.setText("Tem filhos ");
@@ -155,11 +165,11 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         jLabel7.setText("Estado:");
 
         try {
-            txtNscimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txtNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtNscimento.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtNascimento.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("Data de Nascimento:");
@@ -189,9 +199,19 @@ public class FrmCliente extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
         txtTelefone.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefoneActionPerformed(evt);
+            }
+        });
 
         btnLimpar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnSalvar.setText("Salvar");
@@ -235,7 +255,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(rbMasculino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtNscimento))
+                                    .addComponent(txtNascimento))
                                 .addGap(28, 28, 28)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -316,7 +336,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                     .addComponent(cbCasado))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNscimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel2)
                     .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -407,7 +427,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
                 }
             }
             
-            String data = txtNscimento.getText();
+            String data = txtNascimento.getText();
             int dia = Integer.valueOf(data.substring(0, 2)); 
             int mes = Integer.valueOf(data.substring(3, 5)) - 1;
             int ano = Integer.valueOf(data.substring(6));
@@ -423,6 +443,30 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         }
             
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+     txtNome.setText("");
+     txtTelefone.setText("");
+     txtCPF.setText("");
+     txtNascimento.setText("");
+     txtSalario.setText("");
+     buttonGroupSexo.clearSelection();
+     cbCasado.setSelected(false);
+     cbTemFilhos.setSelected(false);
+     cmbEstado.setSelectedIndex(0); 
+    }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefoneActionPerformed
+
+    private void rbFemininoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbFemininoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbFemininoActionPerformed
+
+    private void rbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMasculinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbMasculinoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -449,8 +493,8 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rbFeminino;
     private javax.swing.JRadioButton rbMasculino;
     private javax.swing.JFormattedTextField txtCPF;
+    private javax.swing.JFormattedTextField txtNascimento;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JFormattedTextField txtNscimento;
     private javax.swing.JFormattedTextField txtSalario;
     private javax.swing.JFormattedTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
