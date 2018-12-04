@@ -9,6 +9,8 @@ import com.sun.security.ntlm.Client;
 import dao.ClienteDAO;
 import java.util.Calendar;
 import java.util.List;
+import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 ;import model.Cidade;
 import model.Cliente;
@@ -22,13 +24,17 @@ public class ListClientes extends javax.swing.JInternalFrame {
     /**
      * Creates new form ListClientes
      */
-    public ListClientes() {
+    
+    private JDesktopPane jdpTelaInicial;
+    
+    public ListClientes(JDesktopPane jdpTelaInicial) {
         initComponents();
         carregarTabela();
+        this.jdpTelaInicial = jdpTelaInicial;
     }
-    
+   
     public void carregarTabela(){
-        List<Cliente> lista = ClienteDAO.getCliente();
+        List<Cliente> lista = ClienteDAO.getClientes();
         String[] colunas = {"código", "Nome", "Telefone", 
              "Data de Nacimento", "CPF", "sexo", "Casado?",
              "Filhos?", "Salario", "Cidade", "Estado"};
@@ -109,9 +115,19 @@ public class ListClientes extends javax.swing.JInternalFrame {
 
         btnEditar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnExcluir.setText("Excluir ");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Lista de Clientes ");
@@ -159,6 +175,32 @@ public class ListClientes extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+       int linha = tableClientes.getSelectedRow();
+       if( linha < 0){
+           JOptionPane.showMessageDialog(this,
+                   "um cliente deve ser selecionado!");
+       }else{
+          int codigo = (int) tableClientes.getValueAt(linha, 0);
+          Cliente cliente = new Cliente(codigo);
+          ClienteDAO.excluir(cliente);
+          carregarTabela();
+       }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+ int linha = tableClientes.getSelectedRow();
+       if( linha < 0){
+           JOptionPane.showMessageDialog(this,
+                   "um cliente deve ser selecionado!");
+       }else{
+          int codigo = (int) tableClientes.getValueAt(linha, 0); 
+           FrmCliente tela = new FrmCliente( codigo );
+           this.jdpTelaInicial.add(tela);
+           tela.setVisible(true);
+       }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

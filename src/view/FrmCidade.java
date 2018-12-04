@@ -24,6 +24,7 @@ public class FrmCidade extends javax.swing.JInternalFrame {
      */
     
     private Cidade cidade;
+    private ListCidades telaLiCidades;
     
     public FrmCidade() {
         initComponents();
@@ -33,7 +34,8 @@ public class FrmCidade extends javax.swing.JInternalFrame {
         cidade = null;
     }
 
-    public FrmCidade(int codigo) {
+    public FrmCidade(int codigo, ListCidades telaCidades) {
+        this.telaLiCidades = telaCidades;
         initComponents();
         lblCodigo.setVisible(true);
         lblCodigoValor.setVisible(true);
@@ -196,6 +198,8 @@ public class FrmCidade extends javax.swing.JInternalFrame {
           CidadeDao.inserir(cidade);
           }else{
               CidadeDao.editar(cidade);
+              telaLiCidades.carregarTabela();
+              this.dispose();
           }
           txtNome.setText("");
           cmbEstado.setSelectedIndex(0);

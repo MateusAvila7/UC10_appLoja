@@ -25,12 +25,49 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     /**
      * Creates new form FRMCliente
      */
+    private Cliente cliente;
     public FrmCliente() {
         initComponents();
         carregarEstados();
         carregarCidade(0);
+        cliente = null;
+        lblCodigo.setVisible(false);
+        lblCodigoValor.setVisible(false);
         
     }
+    public FrmCliente(int codigo) {
+        initComponents();
+        carregarEstados();
+        carregarCidade(0);
+        cliente = ClienteDAO.getClienteByCodigo(codigo);
+        carregarFormulario();
+        lblCodigo.setVisible(true);
+        lblCodigoValor.setVisible(true);
+        
+        
+    }
+    private void carregarFormulario(){
+        txtNome.setText( cliente.getNome() );
+        lblCodigoValor.setText( String.valueOf(cliente.getCodigo()));
+        txtNome.setText(cliente.getNome());
+        txtCPF.setText(cliente.getCpf());
+        txtTelefone.setText(cliente.getTelefone());
+        
+        String data = "";
+        txtSalario.setText( String.valueOf(cliente.getSalario()));
+        int dia = cliente.getNasimento().get(Calendar.DAY_OF_MONTH);
+        int mes = cliente.getNasimento().get(Calendar.MONTH);
+        int ano = cliente.getNasimento().get(Calendar.YEAR);
+        if(dia < 10 ) data += "0";
+        data += dia + "/";
+        if(mes < 10 ) data += "0";
+        data += mes + "/" + ano;
+        txtNascimento.setText(data);
+        
+        
+        
+    }
+    
     private void carregarEstados(){
         List<Estado> lista = EstadoDAO.getEstados();
         DefaultComboBoxModel model = new DefaultComboBoxModel();

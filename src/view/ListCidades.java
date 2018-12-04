@@ -235,7 +235,7 @@ public class ListCidades extends javax.swing.JInternalFrame {
                   "Você deve selecionar uma cidade!");
       }else{
           int codigo = (int) tableCidades.getValueAt(linha , 0);
-          FrmCidade tela = new FrmCidade(codigo);
+          FrmCidade tela = new FrmCidade(codigo, this);
           jdpTalaInicial.add(tela);
           tela.setVisible(true);
       }
