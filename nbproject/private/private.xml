@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/ListCidades.java</file>
-            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/ListCategoria.java</file>
             <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/FrmCliente.java</file>
-            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/ListProdutos.java</file>
-            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/FrmCategoria.java</file>
-            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/ListClientes.java</file>
-            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/FrmCidade.java</file>
+            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/dao/ProdutoDao.java</file>
+            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/view/FrmProdutos.java</file>
+            <file>file:/C:/Users/181720083/Desktop/Downloads/UC10_appLoja/src/dao/ClienteDAO.java</file>
         </group>
     </open-files>
 </project-private>
