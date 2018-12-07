@@ -21,11 +21,14 @@ import model.Estado;
  * @author 181720083
  */
 public class FrmCliente extends javax.swing.JInternalFrame {
-
+        
     /**
      * Creates new form FRMCliente
      */
     private Cliente cliente;
+    
+    private ListClientes telaListClientes;
+    
     public FrmCliente() {
         initComponents();
         carregarEstados();
@@ -35,7 +38,8 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         lblCodigoValor.setVisible(false);
         
     }
-    public FrmCliente(int codigo) {
+    public FrmCliente(int codigo, ListClientes telaListClientes) {
+        this.telaListClientes = telaListClientes;
         initComponents();
         carregarEstados();
         carregarCidade(0);
@@ -43,9 +47,7 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         carregarFormulario();
         lblCodigo.setVisible(true);
         lblCodigoValor.setVisible(true);
-        
-        
-    }
+      }
     private void carregarFormulario(){
         txtNome.setText( cliente.getNome() );
         lblCodigoValor.setText( String.valueOf(cliente.getCodigo()));
@@ -63,10 +65,35 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         if(mes < 10 ) data += "0";
         data += mes + "/" + ano;
         txtNascimento.setText(data);
+        if( cliente.getSexo().equals(Cliente.FEMININO))
+            rbFeminino.setSelected(true);
+        if(cliente.getSexo().equals(Cliente.MASCULINO))
+            rbMasculino.setSelected(true);
+        cbTemFilhos.setSelected( cliente.isTemFilhos());
+        cbCasado.setSelected(cliente.isCasado());
         
+        int codEstado = cliente.getCidade().getEstado().getCodigo();
         
+          List<Estado> estados = EstadoDAO.getEstados();
+        for( int i= 0; i < estados.size(); i++){
+            if( estados.get(i).getCodigo() == codEstado){
+                int posicao = i + 1;
+                cmbEstado.setSelectedIndex(posicao);
+                break;
+            }
+        }
         
-    }
+        List<Cidade> cidade = CidadeDao.getCidades(codEstado);
+        int codCidade = cliente.getCidade().getCodigo();
+         for( int i= 0; i < cidade.size(); i++){
+            if( cidade.get(i).getCodigo() == codCidade){
+                int posicao = i + 1;
+                cmbCidade.setSelectedIndex(posicao);
+                break;
+            }
+        }
+        
+      }
     
     private void carregarEstados(){
         List<Estado> lista = EstadoDAO.getEstados();
@@ -436,9 +463,15 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         }
         if( nome.isEmpty() || !cpfOK || cidade.getCodigo() == 0 ){
             JOptionPane.showMessageDialog(this, 
-                    "os campos Nome, CPF e Cidade sãko obrigatórios!");
+                    "os campos Nome, CPF e Cidade são obrigatórios!");
         }else{
-            Cliente cliente = new Cliente();
+            boolean novo = false;
+            if( cliente == null){
+                cliente = new Cliente();
+                novo = true;
+                
+            }
+            //Cliente cliente = new Cliente();
             cliente.setNome(txtNome.getText());
             cliente.setTelefone(txtTelefone.getText());
             cliente.setCpf(cpf);
@@ -455,10 +488,10 @@ public class FrmCliente extends javax.swing.JInternalFrame {
             cliente.setCasado(cbCasado.isSelected());
             
             if(rbFeminino.isSelected()){
-                cliente.setSexo("f");
+                cliente.setSexo(Cliente.FEMININO);
             }else{
                 if(rbMasculino.isSelected()){
-                    cliente.setSexo("m");
+                    cliente.setSexo(Cliente.MASCULINO);
                 }else{
                     cliente.setSexo("");
                 }
@@ -473,16 +506,23 @@ public class FrmCliente extends javax.swing.JInternalFrame {
             cliente.setNasimento(nascimento);
             cliente.setCidade(cidade);
             
-            ClienteDAO.inserir(cliente);
-            
+            if( novo ){
+                ClienteDAO.inserir(cliente);
+                limparformulario();
+            }else{
+                ClienteDAO.editar(cliente);
+                telaListClientes.carregarTabela();
+                this.dispose();
+                
+            }
             
             
         }
             
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
-     txtNome.setText("");
+    private void limparformulario(){
+      txtNome.setText("");
      txtTelefone.setText("");
      txtCPF.setText("");
      txtNascimento.setText("");
@@ -491,6 +531,10 @@ public class FrmCliente extends javax.swing.JInternalFrame {
      cbCasado.setSelected(false);
      cbTemFilhos.setSelected(false);
      cmbEstado.setSelectedIndex(0); 
+    }
+    
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+     limparformulario();
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed

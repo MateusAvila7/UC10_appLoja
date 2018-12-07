@@ -130,7 +130,7 @@ public class ClienteDAO {
                  + " FROM clientes c "
                  + " INNER JOIN cidades m ON m.codigo = c.codCidade "
                  + " INNER JOIN estados e ON e.codigo = m.codEstado "
-                 + " WHERE c.condigo = " + codigo;
+                 + " WHERE c.codigo = " + codigo;
          
          
          ResultSet rs = Conexao.consultar(sql);
