@@ -32,7 +32,7 @@ public class ClienteDAO {
                 + "  " +cliente.getCidade().getCodigo()
                 + ")" ;
         
-        Conexao.excutar(sql);
+        Conexao.excutar( sql );
     }
     
      public static void editar(Cliente cliente){
@@ -67,7 +67,7 @@ public class ClienteDAO {
          
          String sql = "SELECT c.codigo, c.nome, c.telefone, c.cpf ,"
                  + "c.salario, c.filhos, c.casado, c.sexo, m.codigo,"
-                 + " m.nome, e.codigo, e.nome,"
+                 + " m.nome, e.codigo, e.nome, "
                  + " DATE_FORMAT( c.dataNascimento , '%d') , "
                  + " DATE_FORMAT( c.dataNascimento , '%m') , "
                  + " DATE_FORMAT( c.dataNascimento , '%Y')  "

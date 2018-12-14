@@ -5,6 +5,14 @@
  */
 package view;
 
+import dao.CategoriaDao;
+import dao.ProdutoDao;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import model.Categoria;
+import model.Produto;
+import org.omg.PortableServer.LifespanPolicy;
+
 /**
  *
  * @author 181720083
@@ -14,9 +22,36 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
     /**
      * Creates new form FrmCategoria
      */
-    public FrmCategoria() {
+    
+    private Categoria categoria;
+    private ListCategoria telaLiCategoria;
+    
+    public FrmCategoria () {
         initComponents();
+        lblCodigo.setVisible(false);
+        lblCodigoValor.setVisible(false);
+        categoria = null;
+   }
+    
+    public FrmCategoria(int codigo, ListCategoria telaCategoria) {
+        this.telaLiCategoria = telaCategoria;
+        initComponents();
+        lblCodigo.setVisible(true);
+        lblCodigoValor.setVisible(true);
+        categoria = CategoriaDao.getCategoriaByCodigo(codigo);
+        carregarFormulario();
+         
     }
+    
+    private void carregarFormulario(){
+        lblCodigoValor.setText(String.valueOf(categoria.getCodigo()));
+        txtNome.setText(categoria.getNome() );
+        
+        
+    }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,6 +89,11 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
 
         btnSalvar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,6 +146,24 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+       String nome = txtNome.getText();
+        boolean nova = false;
+          if ( categoria == null ){
+             nova = true;
+             categoria = new Categoria();
+          }
+          categoria.setNome(nome);
+          if ( nova ){
+          CategoriaDao.inserir(categoria);
+          }else{
+              CategoriaDao.editar(categoria);
+              this.dispose();
+          }
+          
+          
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

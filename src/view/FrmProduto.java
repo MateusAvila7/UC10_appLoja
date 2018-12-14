@@ -5,17 +5,44 @@
  */
 package view;
 
+import dao.CategoriaDao;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import model.Categoria;
+import model.Produto;
+
 /**
  *
  * @author 181720083
  */
-public class FrmProdutos extends javax.swing.JInternalFrame {
+public class FrmProduto extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form FrmProdutos
      */
-    public FrmProdutos() {
+    private Produto produto;
+
+    public FrmProduto() {
         initComponents();
+        carregarCategoria();
+        produto = null;
+        lblCodigo.setVisible(false);
+        lblCodigoValor.setVisible(false);
+
+    }
+
+    private void carregarCategoria() {
+        List<Categoria> lista = CategoriaDao.getCategorias();
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        Categoria fake = new Categoria();
+        fake.setCodigo(0);
+        fake.setNome("Selecione.....");
+        model.addElement(fake);
+
+        for (Categoria categoria : lista) {
+            model.addElement(categoria);
+         }
+        cmbCategoria.setModel(model);
     }
 
     /**
@@ -104,7 +131,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(lblCodigo)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblCodigoValor))
+                                    .addComponent(lblCodigoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel2)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -157,7 +184,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnLimpar))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();

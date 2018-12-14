@@ -10,6 +10,9 @@ public class Categoria {
     public Categoria(int codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
+    } 
+    public Categoria() {
+       
     }
 
     public int getCodigo() {

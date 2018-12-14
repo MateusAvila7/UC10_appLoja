@@ -21,14 +21,14 @@ import model.Estado;
  * @author 181720083
  */
 public class FrmCliente extends javax.swing.JInternalFrame {
-        
+
     /**
      * Creates new form FRMCliente
      */
     private Cliente cliente;
-    
+
     private ListClientes telaListClientes;
-    
+
     public FrmCliente() {
         initComponents();
         carregarEstados();
@@ -36,8 +36,9 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         cliente = null;
         lblCodigo.setVisible(false);
         lblCodigoValor.setVisible(false);
-        
+
     }
+
     public FrmCliente(int codigo, ListClientes telaListClientes) {
         this.telaListClientes = telaListClientes;
         initComponents();
@@ -47,89 +48,94 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         carregarFormulario();
         lblCodigo.setVisible(true);
         lblCodigoValor.setVisible(true);
-      }
-    private void carregarFormulario(){
-        txtNome.setText( cliente.getNome() );
-        lblCodigoValor.setText( String.valueOf(cliente.getCodigo()));
+    }
+
+    private void carregarFormulario() {
+        txtNome.setText(cliente.getNome());
+        lblCodigoValor.setText(String.valueOf(cliente.getCodigo()));
         txtNome.setText(cliente.getNome());
         txtCPF.setText(cliente.getCpf());
         txtTelefone.setText(cliente.getTelefone());
-        
+
         String data = "";
-        txtSalario.setText( String.valueOf(cliente.getSalario()));
+        txtSalario.setText(String.valueOf(cliente.getSalario()));
         int dia = cliente.getNasimento().get(Calendar.DAY_OF_MONTH);
         int mes = cliente.getNasimento().get(Calendar.MONTH);
         int ano = cliente.getNasimento().get(Calendar.YEAR);
-        if(dia < 10 ) data += "0";
+        if (dia < 10) {
+            data += "0";
+        }
         data += dia + "/";
-        if(mes < 10 ) data += "0";
+        if (mes < 10) {
+            data += "0";
+        }
         data += mes + "/" + ano;
         txtNascimento.setText(data);
-        if( cliente.getSexo().equals(Cliente.FEMININO))
+        if (cliente.getSexo().equals(Cliente.FEMININO)) {
             rbFeminino.setSelected(true);
-        if(cliente.getSexo().equals(Cliente.MASCULINO))
+        }
+        if (cliente.getSexo().equals(Cliente.MASCULINO)) {
             rbMasculino.setSelected(true);
-        cbTemFilhos.setSelected( cliente.isTemFilhos());
+        }
+        cbTemFilhos.setSelected(cliente.isTemFilhos());
         cbCasado.setSelected(cliente.isCasado());
-        
+
         int codEstado = cliente.getCidade().getEstado().getCodigo();
-        
-          List<Estado> estados = EstadoDAO.getEstados();
-        for( int i= 0; i < estados.size(); i++){
-            if( estados.get(i).getCodigo() == codEstado){
+
+        List<Estado> estados = EstadoDAO.getEstados();
+        for (int i = 0; i < estados.size(); i++) {
+            if (estados.get(i).getCodigo() == codEstado) {
                 int posicao = i + 1;
                 cmbEstado.setSelectedIndex(posicao);
                 break;
             }
         }
-        
+
         List<Cidade> cidade = CidadeDao.getCidades(codEstado);
         int codCidade = cliente.getCidade().getCodigo();
-         for( int i= 0; i < cidade.size(); i++){
-            if( cidade.get(i).getCodigo() == codCidade){
+        for (int i = 0; i < cidade.size(); i++) {
+            if (cidade.get(i).getCodigo() == codCidade) {
                 int posicao = i + 1;
                 cmbCidade.setSelectedIndex(posicao);
                 break;
             }
         }
-        
-      }
-    
-    private void carregarEstados(){
+
+    }
+
+    private void carregarEstados() {
         List<Estado> lista = EstadoDAO.getEstados();
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        Estado fake =new Estado("Selecione....");
+        Estado fake = new Estado("Selecione....");
         fake.setCodigo(0);
         model.addElement(fake);
-        
-        for(Estado estado : lista){
+
+        for (Estado estado : lista) {
             model.addElement(estado);
         }
         cmbEstado.setModel(model);
     }
-    
-    private void carregarCidade(int codEstado){
-        
+
+    private void carregarCidade(int codEstado) {
+
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         Cidade fake = new Cidade();
-        fake.setCodigo( 0 );
-         if( codEstado == 0){
+        fake.setCodigo(0);
+        if (codEstado == 0) {
             fake.setNome("Selecione um estado.....");
             model.addElement(fake);
             cmbCidade.setEnabled(false);
-        }else{
-        List<Cidade> lista = CidadeDao.getCidades(codEstado);
-        fake.setNome("Selecione....");
-        model.addElement(fake);
-         for(Cidade cidade  : lista){
-            model.addElement(cidade);
+        } else {
+            List<Cidade> lista = CidadeDao.getCidades(codEstado);
+            fake.setNome("Selecione....");
+            model.addElement(fake);
+            for (Cidade cidade : lista) {
+                model.addElement(cidade);
+            }
+            cmbCidade.setEnabled(true);
         }
-        cmbCidade.setEnabled(true);
-         }
-          cmbCidade.setModel(model);
+        cmbCidade.setModel(model);
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -451,90 +457,87 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         String nome = txtNome.getText();
         String cpf = txtCPF.getText();
         Cidade cidade = (Cidade) cmbCidade.getSelectedItem();
-        
+
         boolean cpfOK = true;
-        
+
         try {
-        String ultimoNumero = cpf.substring(13);
-        Integer.valueOf(ultimoNumero);
-        
+            String ultimoNumero = cpf.substring(13);
+            Integer.valueOf(ultimoNumero);
+
         } catch (Exception e) {
             cpfOK = false;
         }
-        if( nome.isEmpty() || !cpfOK || cidade.getCodigo() == 0 ){
-            JOptionPane.showMessageDialog(this, 
+        if (nome.isEmpty() || !cpfOK || cidade.getCodigo() == 0) {
+            JOptionPane.showMessageDialog(this,
                     "os campos Nome, CPF e Cidade são obrigatórios!");
-        }else{
+        } else {
             boolean novo = false;
-            if( cliente == null){
+            if (cliente == null) {
                 cliente = new Cliente();
                 novo = true;
-                
+
             }
             //Cliente cliente = new Cliente();
             cliente.setNome(txtNome.getText());
             cliente.setTelefone(txtTelefone.getText());
             cliente.setCpf(cpf);
-            
+
             String salario = txtSalario.getText();
-            if (!salario .isEmpty() ){
-                salario = salario.replace(",",".");
+            if (!salario.isEmpty()) {
+                salario = salario.replace(",", ".");
                 cliente.setSalario(Double.valueOf(salario));
-                
-            }else{
-                    cliente.setSalario(0);
+
+            } else {
+                cliente.setSalario(0);
             }
             cliente.setTemFilhos(cbTemFilhos.isSelected());
             cliente.setCasado(cbCasado.isSelected());
-            
-            if(rbFeminino.isSelected()){
+
+            if (rbFeminino.isSelected()) {
                 cliente.setSexo(Cliente.FEMININO);
-            }else{
-                if(rbMasculino.isSelected()){
-                    cliente.setSexo(Cliente.MASCULINO);
-                }else{
-                    cliente.setSexo("");
-                }
+            } else if (rbMasculino.isSelected()) {
+                cliente.setSexo(Cliente.MASCULINO);
+            } else {
+                cliente.setSexo("");
             }
-            
+
             String data = txtNascimento.getText();
-            int dia = Integer.valueOf(data.substring(0, 2)); 
+            int dia = Integer.valueOf(data.substring(0, 2));
             int mes = Integer.valueOf(data.substring(3, 5)) - 1;
             int ano = Integer.valueOf(data.substring(6));
             Calendar nascimento = Calendar.getInstance();
             nascimento.set(ano, mes, dia);
             cliente.setNasimento(nascimento);
             cliente.setCidade(cidade);
-            
-            if( novo ){
+
+            if (novo) {
                 ClienteDAO.inserir(cliente);
                 limparformulario();
-            }else{
+            } else {
                 ClienteDAO.editar(cliente);
                 telaListClientes.carregarTabela();
                 this.dispose();
-                
+
             }
-            
-            
+
         }
-            
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void limparformulario(){
-      txtNome.setText("");
-     txtTelefone.setText("");
-     txtCPF.setText("");
-     txtNascimento.setText("");
-     txtSalario.setText("");
-     buttonGroupSexo.clearSelection();
-     cbCasado.setSelected(false);
-     cbTemFilhos.setSelected(false);
-     cmbEstado.setSelectedIndex(0); 
+    private void limparformulario() {
+        txtNome.setText("");
+        txtTelefone.setText("");
+        txtCPF.setText("");
+        txtNascimento.setText("");
+        txtSalario.setText("");
+        buttonGroupSexo.clearSelection();
+        cbCasado.setSelected(false);
+        cbTemFilhos.setSelected(false);
+        cmbEstado.setSelectedIndex(0);
     }
-    
+
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
-     limparformulario();
+        limparformulario();
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed

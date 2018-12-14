@@ -5,6 +5,13 @@
  */
 package view;
 
+import dao.ProdutoDao;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDesktopPane;
+import javax.swing.table.DefaultTableColumnModel;
+import model.Produto;
+
 /**
  *
  * @author 181720083
@@ -14,9 +21,15 @@ public class ListCategoria extends javax.swing.JInternalFrame {
     /**
      * Creates new form ListCategoria
      */
-    public ListCategoria() {
+    public ListCategoria( JDesktopPane jdpPainel ) {
         initComponents();
+        
     }
+    
+     private void carregarProduto(){
+         List<Produto> lista = ProdutoDao.getProdutos();
+         DefaultComboBoxModel model = new DefaultComboBoxModel();
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
