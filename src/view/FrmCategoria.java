@@ -157,11 +157,12 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
           categoria.setNome(nome);
           if ( nova ){
           CategoriaDao.inserir(categoria);
+          categoria = null;
+          txtNome.setText("");
           }else{
               CategoriaDao.editar(categoria);
               this.dispose();
           }
-          
           
     }//GEN-LAST:event_btnSalvarActionPerformed
 

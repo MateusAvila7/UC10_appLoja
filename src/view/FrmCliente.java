@@ -259,6 +259,11 @@ public class FrmCliente extends javax.swing.JInternalFrame {
 
         cmbCidade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         cmbCidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCidadeActionPerformed(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel11.setText("Telefone:");
@@ -467,17 +472,19 @@ public class FrmCliente extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             cpfOK = false;
         }
+        
         if (nome.isEmpty() || !cpfOK || cidade.getCodigo() == 0) {
             JOptionPane.showMessageDialog(this,
                     "os campos Nome, CPF e Cidade são obrigatórios!");
         } else {
+            
             boolean novo = false;
+            
             if (cliente == null) {
                 cliente = new Cliente();
                 novo = true;
 
             }
-            //Cliente cliente = new Cliente();
             cliente.setNome(txtNome.getText());
             cliente.setTelefone(txtTelefone.getText());
             cliente.setCpf(cpf);
@@ -551,6 +558,10 @@ public class FrmCliente extends javax.swing.JInternalFrame {
     private void rbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMasculinoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rbMasculinoActionPerformed
+
+    private void cmbCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbCidadeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

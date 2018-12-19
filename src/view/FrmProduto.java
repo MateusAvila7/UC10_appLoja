@@ -6,6 +6,7 @@
 package view;
 
 import dao.CategoriaDao;
+import dao.ProdutoDao;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import model.Categoria;
@@ -22,6 +23,8 @@ public class FrmProduto extends javax.swing.JInternalFrame {
      */
     private Produto produto;
 
+    private ListProdutos telaListProdutos;
+
     public FrmProduto() {
         initComponents();
         carregarCategoria();
@@ -31,17 +34,44 @@ public class FrmProduto extends javax.swing.JInternalFrame {
 
     }
 
+    public FrmProduto(int codigo, ListProdutos telaListProdutos) {
+        this.telaListProdutos = telaListProdutos;
+        initComponents();
+        carregarCategoria();
+        produto = ProdutoDao.getProdutoByCodigo(codigo);
+        carregarFormulario();
+        lblCodigo.setVisible(true);
+        lblCodigoValor.setVisible(true);
+    }
+
+    private void carregarFormulario() {
+        txtNome.setText(produto.getNome());
+        lblCodigoValor.setText(String.valueOf(produto.getCodigo()));
+        txtNome.setText(produto.getNome());
+        txtPreco.setText(  String.valueOf(produto.getPreco())  );
+        txtQuantidade.setText(  String.valueOf(produto.getQuantidade())  );
+
+        int codCategoria = produto.getCategoria().getCodigo();
+        List<Categoria> categoria = CategoriaDao.getCategorias();
+        for (int i = 0; i < categoria.size(); i++) {
+            if (categoria.get(i).getCodigo() == codCategoria) {
+                int posicao = i + 1;
+                cmbCategoria.setSelectedIndex(posicao);
+                break;
+            }
+        }
+    }
+
     private void carregarCategoria() {
         List<Categoria> lista = CategoriaDao.getCategorias();
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         Categoria fake = new Categoria();
         fake.setCodigo(0);
-        fake.setNome("Selecione.....");
-        model.addElement(fake);
 
         for (Categoria categoria : lista) {
             model.addElement(categoria);
-         }
+        }
+
         cmbCategoria.setModel(model);
     }
 
@@ -112,6 +142,11 @@ public class FrmProduto extends javax.swing.JInternalFrame {
         jLabel7.setText("Cadastrar Produtos ");
 
         btnSalvar.setText("Salvar ");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnLimpar.setText("Limpar ");
 
@@ -191,12 +226,16 @@ public class FrmProduto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtQuantidadeActionPerformed
 
     private void cmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoriaActionPerformed
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_cmbCategoriaActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
